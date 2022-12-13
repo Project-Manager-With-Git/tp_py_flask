@@ -96,11 +96,6 @@
             "source": "dockerfile.jinja",
             "description": "构造flask项目的dockerfile",
             "default_path": "dockerfile"
-        },
-        "docker-compose": {
-            "source": "cp_dockercompose@v0.0.2//server_standalone",
-            "description": "通用的服务使用的dockercompose,适用于调试",
-            "default_path": "docker-compose.yml"
         }
     }
 }
