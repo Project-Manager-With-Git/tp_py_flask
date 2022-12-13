@@ -13,6 +13,8 @@
         "gevent >= 22.10.2",
         "Flask-Cors >= 3.0.10",
         "flasgger >= 0.9.5",
+        "Flask >= 2.2.2",
+        "Flask-RESTful >= 0.3.9",
         "flask-sock >= 0.5.2"
     ],
     "test_requires": [
@@ -54,23 +56,33 @@
         }
     },
     "components": {
+        "api": {
+            "source": "tp_py_flask@dev//api",
+            "description": "RESTful接口模块模板",
+            "default_path": "{{ project_name }}/api"
+        },
+        "sse": {
+            "source": "tp_py_flask@dev//sse",
+            "description": "sse接口模块模板",
+            "default_path": "{{ project_name }}/sse"
+        },
         "ws": {
-            "source": "tp_py_flask@cp-0.0.1//ws",
+            "source": "tp_py_flask@dev//ws",
             "description": "",
             "default_path": "{{ project_name }}/ws"
         },
         "serv": {
-            "source": "tp_py_flask@cp-0.0.1//serv",
+            "source": "tp_py_flask@dev//serv",
             "description": "",
             "default_path": "{{ project_name }}/serv"
         },
         "main": {
-            "source": "tp_py_flask@cp-0.0.1//main",
+            "source": "tp_py_flask@dev//main",
             "description": "flask项目的入口模块组件",
             "default_path": "{{ project_name }}/main.py"
         },
         "dockerfile": {
-            "source": "tp_py_flask@cp-0.0.1//dockerfile",
+            "source": "tp_py_flask@dev//dockerfile",
             "description": "构造flask项目的dockerfile",
             "default_path": "dockerfile"
         },
