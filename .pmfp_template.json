@@ -8,6 +8,7 @@
     "requires": [
         "flask >= 2.2.2",
         "jsonschema >= 3.2.0",
+        "schema_entry >= 0.1.5",
         "pyloggerhelper >= 0.0.2",
         "gevent >=22.10.2",
         "flasgger>=0.9.5",
