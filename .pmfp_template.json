@@ -56,7 +56,7 @@
     },
     "components": {
         "api": {
-            "source": "tp_py_flask@dev//apis",
+            "source": "tp_py_flask@dev//api",
             "description": "RESTful接口模块模板",
             "default_path": "{{ project_name }}/api"
         },
