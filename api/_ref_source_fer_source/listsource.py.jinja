@@ -1,0 +1,57 @@
+from flask import request, jsonify
+from pyloggerhelper import log
+from typing import Any
+from flask_restful import Resource
+
+
+class ListSource(Resource):
+    def get(self) -> Any:
+        """
+        本示例使用FlaskRESTful资源
+        它也适用于swag_from,schema和spec_dict
+        ---
+        tags:
+            - {{ source }}
+        responses:
+            200:
+                description: 资源列表
+        """
+        return jsonify([1, 2, 3, 4])
+
+    def post(self) -> Any:
+        """
+        本示例使用FlaskRESTful资源
+        它也适用于swag_from,schema和spec_dict
+        ---
+        tags:
+            - {{ source }}
+        parameters:
+            - in: body
+              name: body
+              description: JSON parameters.
+              schema:
+              properties:
+                first_name:
+                    type: string
+                    description: First name.
+                    example: Alice
+                last_name:
+                    type: string
+                    description: Last name.
+                    example: Smith
+                dob:
+                    type: string
+                    format: date
+                    description: Date of birth.
+                    example: 1990-01-01
+                comment:
+                    type: string
+                    description: Something arbitrary.
+                    example: Hello world
+        responses:
+            200:
+                description: 资源创建成功
+        """
+        jsoninput = request.get_json()
+        log.debug("post get json input", input=jsoninput)
+        return {"result": "ok"}

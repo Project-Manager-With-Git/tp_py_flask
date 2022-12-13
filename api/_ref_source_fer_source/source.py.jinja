@@ -1,0 +1,111 @@
+from flask import request
+from flask_restful import Resource
+from pyloggerhelper import log
+from typing import Any
+
+
+class Source(Resource):
+
+    def get(self, {{ source }}_id: int) -> Any:
+        """
+        本示例使用FlaskRESTful资源
+        它也适用于swag_from,schema和spec_dict
+        ---
+        tags:
+            - {{ source }}
+        parameters:
+            - in: path
+              name: {{ source }}_id
+              type: string
+              required: true
+        responses:
+            200:
+                description: 单个资源项
+                schema:
+                    id: {{ source }}
+                    properties:
+                    {{ source }}name:
+                        type: string
+                        description: 资源名
+                        default: 匿名资源
+        """
+        log.debug("get {{ source }}_id", {{ source }}_id={{ source }}_id)
+        return {"test": True}
+
+    def put(self, {{ source }}_id: int) -> Any:
+        """
+        本示例使用FlaskRESTful资源
+        它也适用于swag_from,schema和spec_dict
+        ---
+        tags:
+            - {{ source }}
+        parameters:
+            - in: path
+              name: {{ source }}_id
+              type: string
+              required: true
+            - in: body
+              name: body
+              description: JSON parameters.
+              schema:
+              properties:
+                first_name:
+                    type: string
+                    description: First name.
+                    example: Alice
+                last_name:
+                    type: string
+                    description: Last name.
+                    example: Smith
+                dob:
+                    type: string
+                    format: date
+                    description: Date of birth.
+                    example: 1990-01-01
+                comment:
+                    type: string
+                    description: Something arbitrary.
+                    example: Hello world
+        responses:
+            200:
+                description: 单个资源项
+                schema:
+                    id: {{ source }}
+                    properties:
+                    {{ source }}name:
+                        type: string
+                        description: 资源名
+                        default: 匿名资源
+        """
+        log.debug("get {{ source }}_id", {{ source }}_id={{ source }}_id)
+        jsoninput = request.get_json()
+        log.debug("put get json input", input=jsoninput)
+        return {"result": "ok"}
+
+    def delete(self, {{ source }}_id: int) -> Any:
+        """
+        本示例使用FlaskRESTful资源
+        它也适用于swag_from,schema和spec_dict
+        ---
+        tags:
+            - {{ source }}
+        parameters:
+            - in: path
+              name: {{ source }}_id
+              type: string
+              required: true
+        responses:
+            200:
+                description: 单个资源项
+                schema:
+                    id: {{ source }}
+                    properties:
+                    {{ source }}name:
+                        type: string
+                        description: 资源名
+                        default: 匿名资源
+        """
+        log.debug("get {{ source }}_id", {{ source }}_id={{ source }}_id)
+        jsoninput = request.get_json()
+        log.debug("put get json input", input=jsoninput)
+        return {"result": "ok"}

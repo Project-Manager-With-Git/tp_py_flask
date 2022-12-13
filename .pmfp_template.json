@@ -1,0 +1,104 @@
+{
+    "language": "py",
+    "env": "venv",
+    "mini_language_version": "3.8",
+    "description": "flask的相关素材库",
+    "author": "hsz",
+    "template_type": "socket",
+    "requires": [
+        "flask >= 2.2.2",
+        "jsonschema >= 3.2.0",
+        "pyloggerhelper >= 0.0.2",
+        "gevent >=22.10.2"
+    ],
+    "test_requires": [
+        "coverage >= 5.5",
+        "mypy >= 0.800",
+        "autopep8 >= 1.5.6",
+        "pylint >= 2.8.0",
+        "pydocstyle>=6.0.0",
+        "requests >= 2.25.1"
+    ],
+    "template_keys": {
+        "app_name": {
+            "description": "",
+            "default": "{{ project_name }}"
+        },
+        "author": {
+            "description": "作者",
+            "default": "{{ author }}"
+        },
+        "author_email": {
+            "description": "作者",
+            "default": "{{ author_email }}"
+        },
+        "version": {
+            "description": "项目版本",
+            "default": "{{ version }}"
+        },
+        "description": {
+            "description": "项目说明",
+            "default": "{{ description }}"
+        },
+        "url":{
+            "description": "项目地址",
+            "default": "{{ url }}"
+        },
+        "source": {
+            "description": "资源名",
+            "default": "example"
+        }
+    },
+    "components": {
+        "api": {
+            "source": "api",
+            "description": "RESTful接口模块模板",
+            "default_path": "{{ project_name }}/api"
+        },
+        "apis_source": {
+            "source": "apis/_ref_source_fer_namespace",
+            "description": "RESTfulapi的复杂接口实现模板",
+            "default_path": "{{ project_name }}/apis/{{ source }}namespace"
+        },
+        "sse": {
+            "source": "sse",
+            "description": "sse接口模块模板",
+            "default_path": "{{ project_name }}/sse"
+        },
+        "sse_source": {
+            "source": "sse/_ref_source_fer_source.py.jinja",
+            "description": "RESTfulapi的复杂接口实现模板",
+            "default_path": "{{ project_name }}/sse/{{ source }}source.py"
+        },
+        "ws": {
+            "source": "ws",
+            "description": "",
+            "default_path": "ws"
+        },
+        "ws_source": {
+            "source": "ws/_ref_source_fer_source.py.jinja",
+            "description": "RESTfulapi的复杂接口实现模板",
+            "default_path": "{{ project_name }}/ws/{{ source }}source.py"
+        },
+        "serv": {
+            "source": "serv",
+            "description": "",
+            "default_path": "{{ project_name }}/serv"
+        },
+        "main": {
+            "source": "main.py.jinja",
+            "description": "flask项目的入口模块组件",
+            "default_path": "{{ project_name }}/main.py"
+        },
+        "dockerfile": {
+            "source": "dockerfile.jinja",
+            "description": "构造flask项目的dockerfile",
+            "default_path": "dockerfile"
+        },
+        "docker-compose": {
+            "source": "cp_dockercompose@v0.0.2//server_standalone",
+            "description": "通用的服务使用的dockercompose,适用于调试",
+            "default_path": "docker-compose.yml"
+        }
+    }
+}

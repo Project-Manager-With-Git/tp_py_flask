@@ -1,0 +1,11 @@
+from flask import Flask
+from flask_sock import Sock
+from pyloggerhelper import log
+from .{{ source }}source import {{ source }}
+
+
+def init(app: Flask) -> Flask:
+    sock = Sock(app)
+    sock.route("/ws/{{ source }}")({{ source }})
+    log.debug("init ws ok")
+    return app

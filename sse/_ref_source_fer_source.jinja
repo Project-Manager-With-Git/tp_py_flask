@@ -1,0 +1,11 @@
+import time
+
+from typing import Generator
+from .sse import Message
+
+
+def {{ source }}() -> Generator[str, None, None]:
+    while True:
+        yield str(Message("pong"))
+        time.sleep(1)
+

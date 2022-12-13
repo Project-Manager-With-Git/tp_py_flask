@@ -1,0 +1,69 @@
+import warnings
+from gevent.pywsgi import WSGIServer
+from gevent.socket import wait_read, wait_write
+from gevent import monkey
+from flask import Flask
+from pyloggerhelper import log
+from typing import Any
+
+PATCH_PG = False
+try:
+    from psycopg2 import extensions
+except ModuleNotFoundError as e:
+    warnings.warn("not install psycopg2 skip")
+else:
+    PATCH_PG = True
+
+    def patch_psycopg2() -> None:
+        extensions.set_wait_callback(_psycopg2_gevent_callback)
+
+    def _psycopg2_gevent_callback(conn: Any, timeout: Any = None) -> None:
+        while True:
+            state = conn.poll()
+            if state == extensions.POLL_OK:
+                break
+            elif state == extensions.POLL_READ:
+                wait_read(conn.fileno(), timeout=timeout)
+            elif state == extensions.POLL_WRITE:
+                wait_write(conn.fileno(), timeout=timeout)
+            else:
+                raise ValueError('poll() returned unexpected result')
+
+
+def debug_serv(app: Flask) -> None:
+    """使用默认的测试服务启动
+
+    Args:
+        app (Flask): 应用对象
+    """
+    app.run(
+        host=app.config['HOST'],
+        port=app.config['PORT'],
+        debug=app.config['DEBUG'])
+
+
+def gevent_serv(app: Flask) -> None:
+    """使用gevent启动服务.
+
+    Args:
+        app (Flask): 应用对象
+    """
+    monkey.patch_all()
+    if PATCH_PG:
+        patch_psycopg2()
+    args = {
+        "listener": (app.config['HOST'], int(app.config['PORT'])),
+        "application": app,
+    }
+    if app.config.get('KEYFILE') and app.config.get('CERTFILE'):
+        args.update(keyfile=app.config['KEYFILE'], certfile=app.config['CERTFILE'])
+    http_server = WSGIServer(**args)
+    try:
+        log.info("Serve starting up")
+        http_server.serve_forever()
+    except (KeyboardInterrupt, SystemExit):
+        log.info("Shutting down on interrupt.")
+        if http_server.started:
+            http_server.stop()
+    finally:
+        log.info("Shutting down.")

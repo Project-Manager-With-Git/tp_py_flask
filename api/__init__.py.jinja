@@ -1,0 +1,31 @@
+from flask import Flask
+from flask_restful import Api
+from pyloggerhelper import log
+from .{{ source }}source import ListSource as {{ source | upper }}ListSource
+from .{{ source }}source import Source as {{ source | upper }}Source
+
+
+def init(app: Flask) -> Flask:
+    app.add_url_rule('/ping', view_func=ping, methods=['GET'])
+    api = Api(app, prefix="/api")
+    api.add_resource({{ source | upper }}ListSource, '/{{ source }}')
+    api.add_resource({{ source | upper }}Source, '/{{ source }}/<int:{{ source }}_id>')
+    log.debug("init api ok")
+    return app
+
+
+def ping() -> str:
+    """This is a simple ping handler
+
+    Now we will add some more details
+
+    openapi:
+    ---
+    operationId: ping
+    tags:
+      - ping
+    responses:
+      '200':
+        description: Just some dots
+    """
+    return "pong"
