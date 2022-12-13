@@ -56,47 +56,32 @@
     },
     "components": {
         "api": {
-            "source": "api",
+            "source": "tp_py_flask@dev//apis",
             "description": "RESTful接口模块模板",
             "default_path": "{{ project_name }}/api"
         },
-        "apis_source": {
-            "source": "apis/_ref_source_fer_namespace",
-            "description": "RESTfulapi的复杂接口实现模板",
-            "default_path": "{{ project_name }}/apis/{{ source }}namespace"
-        },
         "sse": {
-            "source": "sse",
+            "source": "tp_py_flask@dev//sse",
             "description": "sse接口模块模板",
             "default_path": "{{ project_name }}/sse"
         },
-        "sse_source": {
-            "source": "sse/_ref_source_fer_source.py.jinja",
-            "description": "RESTfulapi的复杂接口实现模板",
-            "default_path": "{{ project_name }}/sse/{{ source }}source.py"
-        },
         "ws": {
-            "source": "ws",
+            "source": "tp_py_flask@dev//ws",
             "description": "",
             "default_path": "ws"
         },
-        "ws_source": {
-            "source": "ws/_ref_source_fer_source.py.jinja",
-            "description": "RESTfulapi的复杂接口实现模板",
-            "default_path": "{{ project_name }}/ws/{{ source }}source.py"
-        },
         "serv": {
-            "source": "serv",
+            "source": "tp_py_flask@dev//serv",
             "description": "",
             "default_path": "{{ project_name }}/serv"
         },
         "main": {
-            "source": "main.py.jinja",
+            "source": "tp_py_flask@dev//main",
             "description": "flask项目的入口模块组件",
             "default_path": "{{ project_name }}/main.py"
         },
         "dockerfile": {
-            "source": "dockerfile.jinja",
+            "source": "tp_py_flask@dev//dockerfile",
             "description": "构造flask项目的dockerfile",
             "default_path": "dockerfile"
         },
