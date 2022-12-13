@@ -55,22 +55,22 @@
     },
     "components": {
         "api": {
-            "source": "tp_py_flask@dev//api",
+            "source": "tp_py_flask@cp-0.0.1//api",
             "description": "RESTful接口模块模板",
             "default_path": "{{ project_name }}/api"
         },
         "serv": {
-            "source": "tp_py_flask@dev//serv",
+            "source": "tp_py_flask@cp-0.0.1//serv",
             "description": "",
             "default_path": "{{ project_name }}/serv"
         },
         "main": {
-            "source": "tp_py_flask@dev//main",
+            "source": "tp_py_flask@cp-0.0.1//main",
             "description": "flask项目的入口模块组件",
             "default_path": "{{ project_name }}/main.py"
         },
         "dockerfile": {
-            "source": "tp_py_flask@dev//dockerfile",
+            "source": "tp_py_flask@cp-0.0.1//dockerfile",
             "description": "构造flask项目的dockerfile",
             "default_path": "dockerfile"
         },
