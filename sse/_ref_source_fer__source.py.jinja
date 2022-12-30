@@ -1,11 +1,10 @@
 import time
-
 from typing import Generator
-from .sse import Message
+from sserender import SSE
 
 
 def {{ source }}() -> Generator[str, None, None]:
     while True:
-        yield str(Message("pong"))
+        yield SSE("pong").render()
         time.sleep(1)
 

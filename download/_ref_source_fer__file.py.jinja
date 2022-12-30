@@ -1,0 +1,11 @@
+from flask import Response
+from typing import Generator
+
+
+def {{ source }}() -> Response:
+    def generate() -> Generator[str, None, None]:
+        yield "foo,bar\r\n"
+        yield "a,1\r\n"
+        yield "b,2\r\n"
+        yield "c,3\r\n"
+    return Response(generate(), mimetype='text/csv', headers={"Content-Disposition": "attachment;filename=source.csv"})

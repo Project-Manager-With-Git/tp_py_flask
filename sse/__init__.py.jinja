@@ -6,6 +6,6 @@ from .{{ source }}source import {{ source }}
 
 def init(app: Flask) -> Flask:
     sse = SSE(app)
-    sse.add_url_rule("/sse/{{ source }}", stream_func=ping)
+    sse.add_url_rule("/sse/{{ source }}", stream_func={{ source }})
     log.debug("init sse ok")
     return app

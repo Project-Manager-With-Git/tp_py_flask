@@ -1,0 +1,167 @@
+from pathlib import Path
+from pyloggerhelper import log
+from schema_entry import EntryPoint
+from flask import Flask, Response
+from typing import Any
+from .serv import debug_serv, gevent_serv
+
+
+class Serv(EntryPoint):
+    _name = "{{ app_name }}"
+    default_config_file_paths = [
+        "config.json",
+        "config.yml",
+    ]
+    schema = {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "required": [
+            "app_version",
+            "app_name",
+            "log_level",
+            "address",
+        ],
+        "properties": {
+            "app_version": {
+                "type": "string",
+                "title": "v",
+                "description": "应用版本",
+                "default": "0.0.0"
+            },
+            "app_name": {
+                "type": "string",
+                "title": "n",
+                "description": "应用名",
+                "default": "{{ app_name }}"
+            },
+            "log_level": {
+                "type": "string",
+                "title": "l",
+                "description": "log等级,如果为DEBUG则会认为服务启动在debug模式,且cors不设防",
+                "enum": ["DEBUG", "INFO", "WARN", "ERROR"],
+                "default": "DEBUG"
+            },
+            "address": {
+                "type": "string",
+                "title": "a",
+                "description": "启动地址",
+                "default": "0.0.0.0:5000"
+            },
+            "published_address": {
+                "type": "string",
+                "title": "p",
+                "description": "外部访问地址,如果指定则会激活cors"
+            },
+            "cros_allow_origins": {
+                "type": "array",
+                "description": "跨域允许的域名",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "cros_allow_credentials": {
+                "type": "boolean",
+                "description": "跨域是否需要证书"
+            },
+            "cors_allow_headers": {
+                "type": "array",
+                "description": "跨域允许的头",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "cors_expose_headers": {
+                "type": "array",
+                "description": "跨域暴露的头",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "static_source_dir": {
+                "type": "string",
+                "description": "静态资源存放的文件夹相对项目目录的位置",
+                "default": "dist"
+            },
+            "serv_cert_path": {
+                "type": "string",
+                "description": "服务端证书相对项目目录的位置"
+            },
+            "serv_key_path": {
+                "type": "string",
+                "description": "服务端证书的私钥相对项目目录的位置"
+            }
+        }
+    }
+
+    def create_app(self) -> Flask:
+        app_name = self.config.get("app_name")
+        log_level = self.config.get("log_level")
+        project_dir = Path(__file__).parents[2]
+        appparams: Any = {}
+        if self.config.get("static_source_dir"):
+            appparams.update(static_folder=str(project_dir.joinpath(self.config.get("static_source_dir"))))
+        app = Flask(app_name, **appparams)
+        log.initialize_for_app(
+            app_name=app_name,
+            log_level=log_level
+        )
+        log.info("获取配置", config=self.config)
+
+        # 设置配置
+        address = self.config.get("address", "0.0.0.0:5000")
+        host, port = address.split(":")
+        config = {
+            "PORT": port
+        }
+        if host:
+            config.update(HOST=host)
+
+        log.debug("project dir", p=project_dir)
+        schema = "http"
+        if log_level != "DEBUG":
+            # 非debug模式如有设置会启用ssl及cors
+            config.update(DEBUG=False)
+            if self.config.get("serv_cert_path") and self.config.get("serv_key_path"):
+                schema = "https"
+                config.update(
+                    KEYFILE=str(project_dir.joinpath(self.config.get("serv_key_path"))),
+                    CERTFILE=str(project_dir.joinpath(self.config.get("serv_cert_path")))
+                )
+            from flask_cors import CORS
+            origins = [f"{schema}://{address}"]
+            if self.config.get("published_address"):
+                origins += [f"{schema}://{a}" for a in self.config.get("published_address")]
+            if self.config.get("cros_allow_origins"):
+                origins += self.config["cros_allow_origins"]
+            config.update(CORS_ORIGINS=origins)
+            if self.config.get("cros_allow_credentials"):
+                config.update(CORS_SUPPORTS_CREDENTIALS=True)
+            if self.config.get("cors_allow_headers"):
+                config.update(CORS_ALLOW_HEADERS=self.config["cors_allow_headers"])
+            if self.config.get("cors_expose_headers"):
+                config.update(CORS_EXPOSE_HEADERS=self.config["cors_expose_headers"])
+            CORS(app)
+        else:
+            config.update(DEBUG=True)
+
+        app.config.update(
+            **config
+        )
+        
+        # 单页应用设置
+        @app.route('/', defaults={'path': ''})
+        @app.route('/<path:path>')
+        def catch_all(path: str) -> Response:
+            if path == "":
+                return app.send_static_file("index.html")
+            else:
+                return app.send_static_file(path)
+        return app
+
+    def do_main(self) -> None:
+        app = self.create_app()
+        log_level = self.config.get("log_level")
+        if log_level == "DEBUG":
+            debug_serv(app)
+        else:
+            gevent_serv(app)

@@ -1,12 +1,15 @@
 from pathlib import Path
 from pyloggerhelper import log
 from schema_entry import EntryPoint
-from flask import Flask, Response
+from flask import Flask
+from flask_cors import CORS
 from typing import Any
 from .serv import debug_serv, gevent_serv
-# from api import init as init_api
-# from ws import init as init_ws
-# from sse import init as init_sse
+from view import init as init_view
+from rest import init as init_rest
+from sse import init as init_sse
+from ws import init as init_ws
+
 
 class Serv(EntryPoint):
     _name = "{{ app_name }}"
@@ -28,7 +31,7 @@ class Serv(EntryPoint):
                 "type": "string",
                 "title": "v",
                 "description": "应用版本",
-                "default": "{{ version }}"
+                "default": "0.0.0"
             },
             "app_name": {
                 "type": "string",
@@ -81,16 +84,13 @@ class Serv(EntryPoint):
             },
             "template_source_dir": {
                 "type": "string",
-                "description": "模板文件的文件夹相对项目目录的位置"
+                "description": "模板文件的文件夹相对项目目录的位置",
+                "default": "templates"
             },
             "static_source_dir": {
                 "type": "string",
-                "description": "静态资源存放的文件夹相对项目目录的位置"
-            },
-            "spa": {
-                "type": "boolean",
-                "description": "是否挂载单页应用",
-                "default": False
+                "description": "静态资源存放的文件夹相对项目目录的位置",
+                "default": "static"
             },
             "serv_cert_path": {
                 "type": "string",
@@ -110,10 +110,8 @@ class Serv(EntryPoint):
         appparams: Any = {}
         if self.config.get("static_source_dir"):
             appparams.update(static_folder=str(project_dir.joinpath(self.config.get("static_source_dir"))))
-            # appparams.update(static_folder=self.config.get("static_source_dir"))
         if self.config.get("template_source_dir"):
             appparams.update(template_folder=str(project_dir.joinpath(self.config.get("template_source_dir"))))
-            # appparams.update(template_folder=self.config.get("template_source_dir"))
         app = Flask(app_name, **appparams)
         log.initialize_for_app(
             app_name=app_name,
@@ -141,7 +139,6 @@ class Serv(EntryPoint):
                     KEYFILE=str(project_dir.joinpath(self.config.get("serv_key_path"))),
                     CERTFILE=str(project_dir.joinpath(self.config.get("serv_cert_path")))
                 )
-            from flask_cors import CORS
             origins = [f"{schema}://{address}"]
             if self.config.get("published_address"):
                 origins += [f"{schema}://{a}" for a in self.config.get("published_address")]
@@ -154,13 +151,13 @@ class Serv(EntryPoint):
                 config.update(CORS_ALLOW_HEADERS=self.config["cors_allow_headers"])
             if self.config.get("cors_expose_headers"):
                 config.update(CORS_EXPOSE_HEADERS=self.config["cors_expose_headers"])
-            CORS(app)
         else:
+            config.update(DEBUG=True)
             # debug模式会启用swagger
             from flasgger import Swagger
             from copy import deepcopy
             conf = deepcopy(Swagger.DEFAULT_CONFIG)
-            conf.update({"specs_route": "/swagger/"})
+            conf.update({"specs_route": "/docs/"})
             template = {
                 "swagger": "2.0",
                 "info": {
@@ -175,34 +172,22 @@ class Serv(EntryPoint):
                     "version": "{{ version }}"
                 },
                 "host": self.config["address"],  # overrides localhost:500
-                "basePath": "/api",  # base bash for blueprint registration
+                "basePath": "",  # base bash for blueprint registration
                 "schemes": [
                     "http"
                 ],
                 "operationId": "getmyData"
             }
             Swagger(app, config=conf, template=template)
-            config.update(DEBUG=True)
 
         app.config.update(
             **config
         )
-        # 注册接口
-        # init_api(app)
-        # init_ws(app)
-        # init_sse(app)
-
-        # 单页应用设置
-        if self.config.get("spa"):
-            log.debug("host single page web application")
-
-            @app.route('/', defaults={'path': ''})
-            @app.route('/<path:path>')
-            def catch_all(path: str) -> Response:
-                if path == "":
-                    return app.send_static_file("index.html")
-                else:
-                    return app.send_static_file(path)
+        CORS(app)
+        init_view(app)
+        init_rest(app)
+        init_sse(app)
+        init_ws(app)
         return app
 
     def do_main(self) -> None:

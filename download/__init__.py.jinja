@@ -1,0 +1,7 @@
+from flask import Flask
+from .{{ source }}_file import {{ source }}
+
+
+def init(app: Flask) -> Flask:
+    app.add_url_rule("/download/{{ source }}.csv", view_func={{ source }})
+    return app

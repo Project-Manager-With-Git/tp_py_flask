@@ -1,7 +1,7 @@
 from simple_websocket import Server
 
 
-def {{ source }}(ws: Server) -> None:
+def {{ source }}_ws(ws: Server) -> None:
     while True:
         data = ws.receive()
         ws.send(data)
