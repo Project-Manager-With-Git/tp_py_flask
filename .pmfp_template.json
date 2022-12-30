@@ -53,15 +53,15 @@
         }
     },
     "components": {
-        "api": {
-            "source": "api",
+        "rest": {
+            "source": "rest",
             "description": "RESTful接口模块模板",
-            "default_path": "{{ project_name }}/api"
+            "default_path": "{{ project_name }}/rest"
         },
-        "api_source": {
-            "source": "api/_ref_source_fer_namespace",
+        "rest_source": {
+            "source": "rest/_ref_source_fer_namespace",
             "description": "RESTfulapi的复杂接口实现模板",
-            "default_path": "{{ project_name }}/api/{{ source }}namespace"
+            "default_path": "{{ project_name }}/rest/{{ source }}namespace"
         },
         "sse": {
             "source": "sse",
