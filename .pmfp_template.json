@@ -56,10 +56,10 @@
         }
     },
     "components": {
-        "api": {
-            "source": "tp_py_flask@dev//api",
+        "rest": {
+            "source": "tp_py_flask@dev//rest",
             "description": "RESTful接口模块模板",
-            "default_path": "{{ project_name }}/api"
+            "default_path": "{{ project_name }}/rest"
         },
         "sse": {
             "source": "tp_py_flask@dev//sse",

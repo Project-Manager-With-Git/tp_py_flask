@@ -15,9 +15,14 @@ flask是python环境下最成熟的同步语法微框架之一,由于它使用�
 
 + dev分支:维护最新的的组件,组件tag全部从这里分出,统一使用cp-0.0.0作为前缀
 + master分支用于测试各种模版配置,模版tag全部从这里分出,统一使用api-0.0.0这样的形式,前缀分为:
-    + api,单纯的RESTfulapi服务模版
-    + ws,单纯的websocket服务模版
-    + spa,混合api,ws和sse的单页应用模版.
+
+    + `static`,静态资源服务模板
+    + `rest`,RESTfulapi服务模版
+    + `ws`,websocket服务模版
+    + `api`,包含RESTful接口,sse接口,和websocket接口的服务模版
+    + `spa`,混合api,ws,sse和download的单页应用模版.
+    + `mvc`,由jinja2模版动态渲染的应用模版
+    + `mvcapi`,由jinja2模版动态渲染的应用模版同时包含RESTful接口,sse接口,和websocket接口的服务模版
 
 ## 用法说明
 
@@ -35,5 +40,3 @@ flask是python环境下最成熟的同步语法微框架之一,由于它使用�
     + `ppm project add tp_py_flask@cp-0.0.1//api_source --located-path=testflask/api/usernamespace --kv=source::user`增加一个api资源
     + `ppm project add tp_py_flask@cp-0.0.1//ws_source --located-path=testflask/ws/usernamespace.py --kv=source::user`增加一个websocket资源
     + `ppm project add tp_py_flask@cp-0.0.1//sse_source --located-path=testflask/sse/usernamespace.py --kv=source::user`增加一个sse资源
-
-+ 如果使用单页应用,参数中设置`spa`为`true`
