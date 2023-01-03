@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_restful import Api
 from pyloggerhelper import log
-from .{{ source }}source import ListSource as {{ source | upper }}ListSource
-from .{{ source }}source import Source as {{ source | upper }}Source
+from .{{ source }}_source import ListSource as {{ source | upper }}ListSource
+from .{{ source }}_source import Source as {{ source | upper }}Source
 
 
 def init(app: Flask) -> Flask:
