@@ -2,7 +2,7 @@
     "language": "py",
     "env": "venv",
     "mini_language_version": "3.8",
-    "description": "flask的相关素材库",
+    "description": "flask的静态http服务模板",
     "author": "hsz",
     "template_type": "socket",
     "requires": [
@@ -53,17 +53,17 @@
     },
     "components": {
         "servstatic": {
-            "source": "tp_py_flask@dev//servstatic",
+            "source": "tp_py_flask@cp-0.0.1//servstatic",
             "description": "flask构造静态http服务的服务器",
             "default_path": "{{ project_name }}/serv"
         },
         "main": {
-            "source": "tp_py_flask@dev//main",
+            "source": "tp_py_flask@cp-0.0.1//main",
             "description": "flask项目的入口模块组件",
             "default_path": "{{ project_name }}/main.py"
         },
         "dockerfile": {
-            "source": "tp_py_flask@dev//dockerfile",
+            "source": "tp_py_flask@cp-0.0.1//dockerfile",
             "description": "构造flask项目的dockerfile",
             "default_path": "dockerfile"
         },
