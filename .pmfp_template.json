@@ -13,9 +13,7 @@
         "gevent >= 22.10.2",
         "Flask-Cors >= 3.0.10",
         "flasgger >= 0.9.5",
-        "Flask-RESTful >= 0.3.9",
-        "flask-sock >= 0.5.2",
-        "sserender >= 0.0.3"
+        "Flask-RESTful >= 0.3.9"
     ],
     "test_requires": [
         "coverage >= 5.5",
@@ -61,18 +59,8 @@
             "description": "RESTful接口模块模板",
             "default_path": "{{ project_name }}/rest"
         },
-        "sse": {
-            "source": "tp_py_flask@dev//sse",
-            "description": "sse接口模块模板",
-            "default_path": "{{ project_name }}/sse"
-        },
-        "ws": {
-            "source": "tp_py_flask@dev//ws",
-            "description": "",
-            "default_path": "{{ project_name }}/ws"
-        },
-        "servapi": {
-            "source": "tp_py_flask@dev//servapi",
+        "servrest": {
+            "source": "tp_py_flask@dev//servrest",
             "description": "",
             "default_path": "{{ project_name }}/serv"
         },
