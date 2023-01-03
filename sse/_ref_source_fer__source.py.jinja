@@ -3,7 +3,7 @@ from typing import Generator
 from sserender import SSE
 
 
-def {{ source }}() -> Generator[str, None, None]:
+def {{ source }}_sse() -> Generator[str, None, None]:
     while True:
         yield SSE("pong").render()
         time.sleep(1)

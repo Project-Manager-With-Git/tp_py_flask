@@ -1,11 +1,11 @@
 from flask import Flask
 from pyloggerhelper import log
 from .sse import SSE
-from .{{ source }}_source import {{ source }}
+from .{{ source }}_source import {{ source }}_sse
 
 
 def init(app: Flask) -> Flask:
     sse = SSE(app)
-    sse.add_url_rule("/sse/{{ source }}", stream_func={{ source }})
+    sse.add_url_rule("/sse/{{ source }}", stream_func={{ source }}_sse)
     log.debug("init sse ok")
     return app

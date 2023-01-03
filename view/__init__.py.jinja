@@ -1,7 +1,7 @@
 from flask import Flask
-from .{{ source }}_view import {{ source }}
+from .{{ source }}_view import {{ source }}_view
 
 
 def init(app: Flask) -> Flask:
-    app.add_url_rule("/{{ source }}", view_func={{ source }})
+    app.add_url_rule("/{{ source }}", view_func={{ source }}_view)
     return app
