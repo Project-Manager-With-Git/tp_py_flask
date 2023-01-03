@@ -71,8 +71,13 @@
             "description": "",
             "default_path": "{{ project_name }}/ws"
         },
-        "servapi": {
-            "source": "tp_py_flask@dev//servapi",
+        "view": {
+            "source": "tp_py_flask@dev//view",
+            "description": "flask的动态页面组件",
+            "default_path": "{{ project_name }}/view"
+        },
+        "servmvcapi": {
+            "source": "tp_py_flask@dev//servmvcapi",
             "description": "",
             "default_path": "{{ project_name }}/serv"
         },
