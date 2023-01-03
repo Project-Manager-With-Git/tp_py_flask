@@ -2,7 +2,7 @@
     "language": "py",
     "env": "venv",
     "mini_language_version": "3.8",
-    "description": "flask的相关素材库",
+    "description": "flask的接口服务模板",
     "author": "hsz",
     "template_type": "socket",
     "requires": [
@@ -68,12 +68,12 @@
         },
         "ws": {
             "source": "tp_py_flask@dev//ws",
-            "description": "",
+            "description": "flask的websocket组件",
             "default_path": "{{ project_name }}/ws"
         },
         "servapi": {
             "source": "tp_py_flask@dev//servapi",
-            "description": "",
+            "description": "flask接口服务的服务组件",
             "default_path": "{{ project_name }}/serv"
         },
         "main": {
