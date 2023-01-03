@@ -2,7 +2,7 @@
     "language": "py",
     "env": "venv",
     "mini_language_version": "3.8",
-    "description": "flask的相关素材库",
+    "description": "flask的restful接口服务模板",
     "author": "hsz",
     "template_type": "socket",
     "requires": [
@@ -61,7 +61,7 @@
         },
         "servrest": {
             "source": "tp_py_flask@dev//servrest",
-            "description": "",
+            "description": "Flask的restful接口服务组件",
             "default_path": "{{ project_name }}/serv"
         },
         "main": {
