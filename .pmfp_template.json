@@ -53,22 +53,22 @@
     },
     "components": {
         "view": {
-            "source": "tp_py_flask@dev//view",
+            "source": "tp_py_flask@cp-0.0.1//view",
             "description": "flask的动态页面组件",
             "default_path": "{{ project_name }}/view"
         },
         "servmvc": {
-            "source": "tp_py_flask@dev//servmvc",
+            "source": "tp_py_flask@cp-0.0.1//servmvc",
             "description": "mvc服务组件",
             "default_path": "{{ project_name }}/serv"
         },
         "main": {
-            "source": "tp_py_flask@dev//main",
+            "source": "tp_py_flask@cp-0.0.1//main",
             "description": "flask项目的入口模块组件",
             "default_path": "{{ project_name }}/main.py"
         },
         "dockerfile": {
-            "source": "tp_py_flask@dev//dockerfile",
+            "source": "tp_py_flask@cp-0.0.1//dockerfile",
             "description": "构造flask项目的dockerfile",
             "default_path": "dockerfile"
         },
