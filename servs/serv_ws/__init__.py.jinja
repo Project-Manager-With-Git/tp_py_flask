@@ -138,31 +138,6 @@ class Serv(EntryPoint):
         else:
             config.update(DEBUG=True)
             # debug模式会启用swagger
-            from flasgger import Swagger
-            from copy import deepcopy
-            conf = deepcopy(Swagger.DEFAULT_CONFIG)
-            conf.update({"specs_route": "/docs/"})
-            template = {
-                "swagger": "2.0",
-                "info": {
-                    "title": app_name,
-                    "description": "{{ description }}",
-                    "contact": {
-                        "responsibleOrganization": "{{ author }}",
-                        "responsibleDeveloper": "{{ author }}",
-                        "email": "{{ author_email }}",
-                        "url": "{{ url }}",
-                    },
-                    "version": "{{ version }}"
-                },
-                "host": self.config["address"],  # overrides localhost:500
-                "basePath": "",  # base bash for blueprint registration
-                "schemes": [
-                    "http"
-                ],
-                "operationId": "getmyData"
-            }
-            Swagger(app, config=conf, template=template)
 
         app.config.update(
             **config
