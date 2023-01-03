@@ -2,7 +2,7 @@
     "language": "py",
     "env": "venv",
     "mini_language_version": "3.8",
-    "description": "flask的相关素材库",
+    "description": "flask的mvc模式模版",
     "author": "hsz",
     "template_type": "socket",
     "requires": [
@@ -59,7 +59,7 @@
         },
         "servmvc": {
             "source": "tp_py_flask@dev//servmvc",
-            "description": "",
+            "description": "mvc服务组件",
             "default_path": "{{ project_name }}/serv"
         },
         "main": {
